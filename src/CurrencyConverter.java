@@ -40,7 +40,8 @@ public class CurrencyConverter {
         return data;
     }
 
-    public static String convert(double amount, String baseCurrency, String targetCurrency) {
+    public static String calculate(double amount, String baseCurrency, String targetCurrency) {
+        //TODO make it get data faster lamo this slow
         double result = 0;
         int timestamp;
 
@@ -69,17 +70,62 @@ public class CurrencyConverter {
         return "At time: " + dateFormat.format(time) + " the value of " + f.format(amount) + " " + baseCurrency + " is " + f.format(result) + " " + targetCurrency;
     }
 
-    public static void main(String[] args) {
-
+    public static void run() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Sinan's Currency Converter \n Please make sure to use ISO currency codes :)");
-        System.out.println("Enter the currency you want to convert from: ");
-        String base = scanner.nextLine().toUpperCase();
-        System.out.println("Enter the currency you want to conver to: ");
-        String target = scanner.nextLine().toUpperCase();
-        System.out.println("Enter the amount you want to convert: ");
-        double amount = scanner.nextDouble();
-        System.out.println(convert(amount, base, target));
+        String base = "",target = "";
+        double amount = 0;
 
+        int select = menu();
+
+        switch (select) {
+            case 6:
+                System.out.println("Sayonara");
+                System.exit(0);
+                break;
+            case 1:
+                System.out.println("Enter the currency you want to convert from: ");
+                base = scanner.nextLine().toUpperCase();
+                System.out.println("Enter the currency you want to convert to: ");
+                target = scanner.nextLine().toUpperCase();
+                System.out.println("Enter the amount you want to convert: ");
+                amount = scanner.nextDouble();
+                System.out.println(calculate(amount, base, target));
+                run();
+            case 2:
+                if (target.equals("") || base.equals("")){
+                    System.out.println("You fool of a took!");
+
+                }
+
+
+        }
+
+
+
+
+    }
+
+
+
+    public static int menu() {
+        int selection;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Choose from these choices");
+        System.out.println("-------------------------\n");
+        System.out.println("1 - new conversion");
+        System.out.println("2 - new conversion using same currencies");
+        System.out.println("3 - new conversion using same base currency");
+        System.out.println("4 - new conversion using same target currency");
+        System.out.println("5 - new conversion with the currencies flipped");
+        System.out.println("6 - quit");
+
+        selection = input.nextInt();
+        return selection;
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println("Welcome to Sinan's Currency Converter\nPlease make sure to use ISO currency codes :)");
+        run();
     }
 }
