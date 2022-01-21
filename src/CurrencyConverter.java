@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CurrencyConverter {
+    public static void main(String[] args) {
+        System.out.println("Welcome to Sinan's Currency Converter\n");
+        // Please make sure to use ISO currency codes :)
+        //TODO implement a warning for not inputting ISO currency code
+
+        run("", "", 0);
+    }
+
     public static String getData(String base_currency) {
         String data = "";
         try {
@@ -70,48 +78,99 @@ public class CurrencyConverter {
         return "At time: " + dateFormat.format(time) + " the value of " + f.format(amount) + " " + baseCurrency + " is " + f.format(result) + " " + targetCurrency;
     }
 
-    public static void run() {
+    public static void convert() {
         Scanner scanner = new Scanner(System.in);
-        String base = "",target = "";
-        double amount = 0;
+        System.out.println("Enter the currency you want to convert from: ");
+        String base = scanner.nextLine().toUpperCase();
+        System.out.println("Enter the currency you want to convert to: ");
+        String target = scanner.nextLine().toUpperCase();
+        System.out.println("Enter the amount you want to convert: ");
+        double amount = scanner.nextDouble();
+        System.out.println(calculate(amount, base, target));
+        run(base, target, amount);
+    }
 
+    public static void convert(String base, String target) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the amount you want to convert: ");
+        double amount = scanner.nextDouble();
+        System.out.println(calculate(amount, base, target));
+        run(base, target, amount);
+    }
+
+    public static void convertSameBase(String base) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the currency you want to convert to: ");
+        String target = scanner.nextLine().toUpperCase();
+        System.out.println("Enter the amount you want to convert: ");
+        double amount = scanner.nextDouble();
+        System.out.println(calculate(amount, base, target));
+        run(base, target, amount);
+    }
+
+    public static void convertSameTarget(String target) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the currency you want to convert from: ");
+        String base = scanner.nextLine().toUpperCase();
+        System.out.println("Enter the amount you want to convert: ");
+        double amount = scanner.nextDouble();
+        System.out.println(calculate(amount, base, target));
+        run(base, target, amount);
+    }
+
+    public static void run(String base, String target, double amount) {
         int select = menu();
 
         switch (select) {
+            case 1:
+                convert();
+            case 2:
+                if (target.equals("") || base.equals("")) {
+                    System.out.println("You fool of a took!");
+                    convert();
+                } else {
+                    convert(base, target);
+                }
+            case 3:
+                if (base.equals("")) {
+                    System.out.println("You fool of a took!");
+                    convert();
+                } else {
+                    convertSameBase(base);
+                }
+            case 4:
+                if (target.equals("")) {
+                    System.out.println("You fool of a took!");
+                    convert();
+                } else {
+                    convertSameTarget(target);
+                }
+            case 5:
+                if (target.equals("") || base.equals("")) {
+                    System.out.println("You fool of a took!");
+                    convert();
+                } else {
+                    convert(target, base);
+                }
             case 6:
                 System.out.println("Sayonara");
                 System.exit(0);
                 break;
-            case 1:
-                System.out.println("Enter the currency you want to convert from: ");
-                base = scanner.nextLine().toUpperCase();
-                System.out.println("Enter the currency you want to convert to: ");
-                target = scanner.nextLine().toUpperCase();
-                System.out.println("Enter the amount you want to convert: ");
-                amount = scanner.nextDouble();
-                System.out.println(calculate(amount, base, target));
-                run();
-            case 2:
-                if (target.equals("") || base.equals("")){
-                    System.out.println("You fool of a took!");
-
-                }
-
+            default:
+                System.out.println("That's not an option, to teach you a lesson now I will quit");
+                System.exit(0);
 
         }
 
 
-
-
     }
-
 
 
     public static int menu() {
         int selection;
         Scanner input = new Scanner(System.in);
         System.out.println("Choose from these choices");
-        System.out.println("-------------------------\n");
+        System.out.println("-------------------------");
         System.out.println("1 - new conversion");
         System.out.println("2 - new conversion using same currencies");
         System.out.println("3 - new conversion using same base currency");
@@ -124,8 +183,4 @@ public class CurrencyConverter {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to Sinan's Currency Converter\nPlease make sure to use ISO currency codes :)");
-        run();
-    }
 }
